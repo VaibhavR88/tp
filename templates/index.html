@@ -35,7 +35,6 @@
     }
     textarea:focus { border-color: var(--primary); outline: none; }
     button {
-      position: relative;
       background: var(--primary);
       color: #fff;
       border: none;
@@ -44,26 +43,8 @@
       font-size: 1rem;
       cursor: pointer;
       transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 80px;
     }
-    button:hover:not(:disabled) { background: var(--primary-light); }
-    button:disabled { opacity: 0.7; cursor: not-allowed; }
-    .btn-text { display: inline-block; }
-    .spinner {
-      display: none;
-      width: 16px;
-      height: 16px;
-      border: 2px solid transparent;
-      border-top-color: #fff;
-      border-right-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-      margin-left: 8px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    button:hover { background: var(--primary-light); }
     .response {
       margin-top: 20px;
       padding: 20px;
@@ -79,17 +60,13 @@
   <div class="chat-container">
     <div class="header"><h1>Skill Roadmap Chatbot</h1></div>
     <div class="content">
-      <form id="chat-form" action="/chat" method="post" class="input-group">
+      <form action="/chat" method="post" class="input-group">
         <textarea id="message" name="message" placeholder="Enter a skill (e.g., Python, Data Science)..." required>{{ user_message or '' }}</textarea>
-        <button id="send-btn" type="submit">
-          <span class="btn-text">Send</span>
-          <span class="spinner"></span>
-        </button>
+        <button type="submit">Send</button>
       </form>
       {% if response %}
       <div id="bot-response" class="response"></div>
       <script>
-        // Render Markdown when response is available
         document.addEventListener('DOMContentLoaded', () => {
           const raw = `{{ response | escape }}`;
           document.getElementById('bot-response').innerHTML = marked.parse(raw);
@@ -103,15 +80,5 @@
       {% endif %}
     </div>
   </div>
-  <script>
-    // Add loading state to Send button
-    const form = document.getElementById('chat-form');
-    const sendBtn = document.getElementById('send-btn');
-    form.addEventListener('submit', () => {
-      sendBtn.disabled = true;
-      sendBtn.querySelector('.btn-text').style.display = 'none';
-      sendBtn.querySelector('.spinner').style.display = 'inline-block';
-    });
-  </script>
 </body>
 </html>
