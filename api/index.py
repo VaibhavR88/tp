@@ -12,7 +12,7 @@ app = Flask(__name__, template_folder='../templates') # Point to the correct tem
 # --- IMPORTANT: Get API Key from Environment Variable ---
 # For local testing, it reads from .env
 # For Vercell, set NVIDIA_API_KEY in the Vercell dashboard environment variables
-NVIDIA_API_KEY = "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"
+NVIDIA_API_KEY = "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"
 
 # Initialize OpenAI client ONLY if the key exists
 client = None
