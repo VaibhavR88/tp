@@ -54,7 +54,26 @@ def chat():
     try:
         completion = client.chat.completions.create(
             model="meta/llama3-70b-instruct",
-            messages=[{"role": "user", "content": "Give accurate information about this Skills with aproper road map to learn this skill .Follow a format 1)Steps: 2)Key prerequisites 3)Future Guidance  . Skill to be learnt : "+user_message}],
+           messages=[
+  {
+    "role": "system", 
+    "content": "You are a knowledgeable learning advisor with expertise in numerous skills and fields. When providing guidance on learning a new skill, give accurate, structured information that helps users develop a clear learning path. Always be truthful about your knowledge limitations. If you're uncertain about specific details, acknowledge this and provide general guidance instead of potentially inaccurate information."
+  },
+  {
+    "role": "user", 
+    "content": f"Give accurate information about this skill with a proper roadmap to learn it. Follow this format:  
+    
+    1) Overview: Brief description of the skill and its importance
+    2) Learning Roadmap: Detailed step-by-step progression 
+    3) Key Prerequisites: Foundation knowledge/skills needed
+    4) Learning Resources: Recommended books, courses, tools, and platforms
+    5) Practical Application: Ways to practice and build experience
+    6) Common Challenges: Typical obstacles and how to overcome them
+    7) Future Guidance: Advanced topics and specialization paths
+    
+    Skill to be learned: {user_message}"
+  }
+],
             temperature=0.5,
             top_p=1,
             max_tokens=1024,
