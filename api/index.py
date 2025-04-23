@@ -54,7 +54,7 @@ def chat():
     try:
         completion = client.chat.completions.create(
             model="meta/llama3-70b-instruct",
-            messages=[{"role": "user", "content": "Give accurate information about this Term and give some key market research with statistics . Follow a format 1)Steps: 2)Key prerequisites 3)Future Guidance  . Term (Market research) : "+user_message}],
+            messages=[{"role": "user", "content": "Give accurate information about this Skills with aproper road map to learn this skill .Follow a format 1)Steps: 2)Key prerequisites 3)Future Guidance  . Skill to be learnt : "+user_message}],
             temperature=0.5,
             top_p=1,
             max_tokens=1024,
