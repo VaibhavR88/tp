@@ -3,25 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillPath AI - Learning Roadmap Generator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Skill Roadmap Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #6366f1;
-            --primary-light: #818cf8;
-            --primary-dark: #4f46e5;
-            --secondary: #10b981;
-            --secondary-light: #34d399;
-            --background: #f9fafb;
+            --primary-hover: #4f46e5;
+            --background: #f8fafc;
             --surface: #ffffff;
-            --text: #1f2937;
-            --text-light: #6b7280;
-            --accent: #f472b6;
-            --border: #e5e7eb;
-            --shadow: rgba(0, 0, 0, 0.05);
-            --success: #10b981;
-            --error: #ef4444;
-            --warning: #f59e0b;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
         }
 
         * {
@@ -31,855 +22,257 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.7;
-            color: var(--text);
-            background: linear-gradient(135deg, #f5f7ff 0%, #f1f8ff 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--background) 0%, #f1f5f9 100%);
             min-height: 100vh;
+            padding: 2rem;
+            color: var(--text-primary);
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 2rem 1.5rem;
+            animation: fadeIn 0.5s ease-out;
         }
 
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2rem;
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        .header h1 {
+            font-size: 2.5rem;
             font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary-dark);
-        }
-
-        .logo-icon {
-            font-size: 1.75rem;
-            color: var(--primary);
-        }
-
-        .tagline {
-            font-size: 1rem;
-            color: var(--text-light);
-            margin-top: 0.25rem;
-            font-weight: 400;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 1.25rem;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .theme-toggle:hover {
-            color: var(--primary);
-        }
-
-        main {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
+            background: linear-gradient(45deg, var(--primary), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
         }
 
         .chat-container {
             background: var(--surface);
-            border-radius: 1rem;
-            box-shadow: 0 8px 30px var(--shadow);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .intro-card {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
             padding: 2rem;
-            border-radius: 1rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.2);
-        }
-
-        .intro-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .intro-description {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin-bottom: 1.5rem;
-        }
-
-        .example-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .example-tag {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2rem;
-            padding: 0.4rem 1rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .example-tag:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .chat-area {
-            flex-grow: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            max-height: 500px;
-        }
-
-        .message {
-            margin-bottom: 1.5rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .message-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .avatar {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            margin-right: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            color: white;
-        }
-
-        .avatar-user {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-        }
-
-        .avatar-bot {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
-        }
-
-        .message-content {
-            background: var(--background);
-            padding: 1.25rem;
-            border-radius: 1rem;
-            font-size: 1rem;
-            line-height: 1.7;
-            position: relative;
-            margin-left: 2.75rem;
-        }
-
-        .message-user .message-content {
-            background: var(--primary-light);
-            color: white;
-            border-top-left-radius: 0;
-        }
-
-        .message-bot .message-content {
-            background: var(--background);
-            border-top-left-radius: 0;
-        }
-
-        .roadmap-section {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .roadmap-title {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--primary-dark);
-        }
-
-        .roadmap-subtitle {
-            font-weight: 600;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .step {
-            margin-bottom: 1rem;
-        }
-
-        .step-title {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        ul, ol {
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        li {
-            margin-bottom: 0.25rem;
-        }
-
-        .input-area {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border);
-            background: var(--surface);
-        }
-
-        .input-form {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-end;
         }
 
         .input-group {
-            flex-grow: 1;
             position: relative;
+            margin-bottom: 1.5rem;
         }
 
         .input-label {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--text-secondary);
+            pointer-events: none;
+            transition: all 0.2s ease;
         }
 
-        .input-field {
+        textarea {
             width: 100%;
-            padding: 1rem 1.25rem;
+            min-height: 120px;
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
             border-radius: 0.75rem;
-            border: 1px solid var(--border);
             font-size: 1rem;
-            color: var(--text);
-            background: var(--background);
-            min-height: 60px;
-            resize: vertical;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            resize: none;
         }
 
-        .input-field:focus {
+        textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        .input-placeholder {
-            position: absolute;
-            left: 1.25rem;
-            top: 1rem;
-            color: var(--text-light);
-            pointer-events: none;
-            transition: all 0.3s;
-        }
-
-        .input-field:focus + .input-placeholder,
-        .input-field:not(:placeholder-shown) + .input-placeholder {
-            transform: translateY(-2.5rem) translateX(-0.5rem) scale(0.8);
+        textarea:focus + .input-label,
+        textarea:not(:placeholder-shown) + .input-label {
+            transform: translateY(-1.5rem) scale(0.85);
             color: var(--primary);
         }
 
-        .send-button {
+        button {
             background: var(--primary);
             color: white;
             border: none;
+            padding: 0.75rem 1.5rem;
             border-radius: 0.75rem;
-            padding: 1rem 1.5rem;
-            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .send-button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
-        .send-button:active {
+        button:active {
             transform: translateY(0);
         }
 
-        .features-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        .response-container {
             margin-top: 2rem;
-        }
-
-        .feature-card {
             background: var(--surface);
-            border-radius: 1rem;
+            border-radius: 0.75rem;
             padding: 1.5rem;
-            box-shadow: 0 8px 30px var(--shadow);
-            transition: all 0.3s;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.4s ease-out forwards;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px var(--shadow);
+        .bot-message {
+            line-height: 1.6;
+            color: var(--text-primary);
         }
 
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        .bot-message strong {
             color: var(--primary);
-        }
-
-        .feature-title {
-            font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: var(--text);
         }
 
-        .feature-description {
-            color: var(--text-light);
-            font-size: 0.95rem;
+        .roadmap-section {
+            margin: 1.5rem 0;
+            padding-left: 1rem;
+            border-left: 3px solid var(--primary);
         }
 
-        footer {
-            margin-top: 4rem;
-            text-align: center;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            padding: 2rem 0;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .footer-link {
+        .step-badge {
+            background: rgba(99, 102, 241, 0.1);
             color: var(--primary);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-link:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
-        }
-
-        .loading-dots {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 500;
             margin: 1rem 0;
+            display: inline-block;
         }
 
-        .dot {
-            width: 0.5rem;
-            height: 0.5rem;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: bounce 1.5s infinite ease-in-out;
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .dot:nth-child(2) {
-            animation-delay: 0.2s;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes bounce {
-            0%, 100% {
+        @keyframes slideUp {
+            to {
+                opacity: 1;
                 transform: translateY(0);
             }
-            50% {
-                transform: translateY(-0.5rem);
-            }
         }
 
-        @media (max-width: 768px) {
-            .input-form {
-                flex-direction: column;
-                align-items: stretch;
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
             }
 
-            .send-button {
-                align-self: flex-end;
+            .header h1 {
+                font-size: 2rem;
             }
 
-            .intro-title {
-                font-size: 1.5rem;
+            textarea {
+                min-height: 100px;
             }
-
-            .intro-description {
-                font-size: 1rem;
-            }
-
-            .features-section {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animation styles */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
-            }
-        }
-
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --background: #111827;
-                --surface: #1f2937;
-                --text: #f9fafb;
-                --text-light: #d1d5db;
-                --border: #374151;
-                --shadow: rgba(0, 0, 0, 0.3);
-            }
-
-            .message-bot .message-content {
-                background: #2d3748;
-            }
-        }
-
-        /* Custom class for dark mode toggle */
-        .dark-mode {
-            --background: #111827;
-            --surface: #1f2937;
-            --text: #f9fafb;
-            --text-light: #d1d5db;
-            --border: #374151;
-            --shadow: rgba(0, 0, 0, 0.3);
-        }
-
-        .dark-mode .message-bot .message-content {
-            background: #2d3748;
-        }
-
-        /* Code styling */
-        code {
-            font-family: 'Fira Code', monospace;
-            background: rgba(0, 0, 0, 0.1);
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.25rem;
-            font-size: 0.9em;
-        }
-
-        .dark-mode code {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Progress indicators */
-        .progress-bar {
-            height: 0.5rem;
-            background: #e5e7eb;
-            border-radius: 0.25rem;
-            margin: 0.5rem 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-light), var(--primary));
-            border-radius: 0.25rem;
-            transition: width 0.5s ease-out;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div>
-                <div class="logo">
-                    <i class="fas fa-route logo-icon"></i>
-                    SkillPath AI
-                </div>
-                <div class="tagline">Your personalized learning roadmap generator</div>
-            </div>
-            <button class="theme-toggle" id="themeToggle">
-                <i class="fas fa-moon"></i>
-            </button>
-        </header>
+        <div class="header">
+            <h1>Skill Roadmap Assistant</h1>
+            <p class="text-secondary">Enter any skill to generate your personalized learning roadmap</p>
+        </div>
 
-        <main>
-            <div class="intro-card">
-                <h1 class="intro-title">Discover Your Learning Path</h1>
-                <p class="intro-description">Enter any skill you want to learn, and SkillPath AI will generate a personalized roadmap with step-by-step guidance to help you master it effectively.</p>
-                <p>Try these examples:</p>
-                <div class="example-tags">
-                    <span class="example-tag" onclick="fillExample('Deep Learning for Masked Face Recognition')">Deep Learning for Masked Face Recognition</span>
-                    <span class="example-tag" onclick="fillExample('Full Stack Web Development')">Full Stack Web Development</span>
-                    <span class="example-tag" onclick="fillExample('Digital Marketing')">Digital Marketing</span>
-                    <span class="example-tag" onclick="fillExample('Data Science')">Data Science</span>
+        <div class="chat-container">
+            <form action="/chat" method="post" id="chatForm">
+                <div class="input-group">
+                    <textarea 
+                        id="message" 
+                        name="message" 
+                        required
+                        placeholder=" "
+                        autocomplete="off"
+                    >{{ user_message or '' }}</textarea>
+                    <label class="input-label" for="message">Enter your skill (e.g., 'Deep learning for Masked Face Recognition')</label>
                 </div>
-            </div>
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    Generate Roadmap
+                </button>
+            </form>
 
-            <div class="chat-container">
-                <div class="chat-area" id="chatArea">
-                    <div class="message message-bot">
-                        <div class="message-header">
-                            <div class="avatar avatar-bot">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <span>SkillPath AI</span>
-                        </div>
-                        <div class="message-content">
-                            <p>Hello! I'm your personal learning assistant. I can create a detailed roadmap for any skill you want to learn. Just tell me what you're interested in, and I'll guide you through the learning process step by step.</p>
+            {% if response %}
+                <div class="response-container">
+                    <div class="bot-message">
+                        <strong>📚 Learning Roadmap:</strong>
+                        <div class="roadmap-section">
+                            {{ response | safe }}
                         </div>
                     </div>
                 </div>
+            {% endif %}
 
-                <div class="input-area">
-                    <form class="input-form" id="chatForm" action="/chat" method="post">
-                        <div class="input-group">
-                            <textarea class="input-field" id="message" name="message" placeholder=" " rows="2"></textarea>
-                            <label class="input-placeholder">Enter a skill you want to learn...</label>
-                        </div>
-                        <button type="submit" class="send-button">
-                            <span>Generate Roadmap</span>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
+            {% if error %}
+                <div class="error-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6m0-6l6 6"/>
+                    </svg>
+                    {{ error }}
                 </div>
-            </div>
-
-            <div class="features-section">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-map-marked-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Personalized Roadmaps</h3>
-                    <p class="feature-description">Get detailed, step-by-step guidance tailored to your learning goals and preferences.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="feature-title">Expert Recommendations</h3>
-                    <p class="feature-description">Access curated resources and best practices from industry experts and educational professionals.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <h3 class="feature-title">Clear Learning Path</h3>
-                    <p class="feature-description">Understand the progression from basics to advanced concepts with realistic timelines and milestones.</p>
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <p>© 2025 SkillPath AI. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#" class="footer-link">About</a>
-                <a href="#" class="footer-link">Privacy Policy</a>
-                <a href="#" class="footer-link">Terms of Service</a>
-                <a href="#" class="footer-link">Contact</a>
-            </div>
-        </footer>
+            {% endif %}
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const themeToggle = document.getElementById('themeToggle');
-            const body = document.body;
-            const form = document.getElementById('chatForm');
-            const messageInput = document.getElementById('message');
-            const chatArea = document.getElementById('chatArea');
+        document.getElementById('chatForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            // Theme toggle functionality
-            themeToggle.addEventListener('click', function() {
-                body.classList.toggle('dark-mode');
-                
-                if (body.classList.contains('dark-mode')) {
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                } else {
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                }
-            });
+            const form = e.target;
+            const formData = new FormData(form);
+            const button = form.querySelector('button');
             
-            // Form submission handling
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const userMessage = messageInput.value.trim();
-                if (!userMessage) return;
-                
-                // Add user message to chat
-                appendUserMessage(userMessage);
-                
-                // Clear input
-                messageInput.value = '';
-                
-                // Show loading indicator
-                showLoading();
-                
-                // Simulate API call
-                setTimeout(() => {
-                    // Remove loading indicator
-                    removeLoading();
-                    
-                    // Generate sample response based on deep learning example
-                    if (userMessage.toLowerCase().includes('deep learning') || 
-                        userMessage.toLowerCase().includes('face recognition')) {
-                        appendBotMessage(generateDeepLearningResponse());
-                    } else {
-                        appendBotMessage(generateGenericResponse(userMessage));
-                    }
-                }, 1500);
-            });
-            
-            // Auto-resize textarea
-            messageInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
-            });
-            
-            // Scroll to bottom of chat
-            function scrollToBottom() {
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }
-            
-            // Append user message to chat
-            function appendUserMessage(message) {
-                const userMessageEl = document.createElement('div');
-                userMessageEl.className = 'message message-user';
-                userMessageEl.innerHTML = `
-                    <div class="message-header">
-                        <div class="avatar avatar-user">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <span>You</span>
-                    </div>
-                    <div class="message-content">
-                        <p>${message}</p>
-                    </div>
-                `;
-                chatArea.appendChild(userMessageEl);
-                scrollToBottom();
-            }
-            
-            // Append bot message to chat
-            function appendBotMessage(message) {
-                const botMessageEl = document.createElement('div');
-                botMessageEl.className = 'message message-bot';
-                botMessageEl.innerHTML = `
-                    <div class="message-header">
-                        <div class="avatar avatar-bot">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <span>SkillPath AI</span>
-                    </div>
-                    <div class="message-content">
-                        ${message}
-                    </div>
-                `;
-                chatArea.appendChild(botMessageEl);
-                scrollToBottom();
-            }
-            
-            // Show loading indicator
-            function showLoading() {
-                const loadingEl = document.createElement('div');
-                loadingEl.className = 'message message-bot loading-message';
-                loadingEl.innerHTML = `
-                    <div class="message-header">
-                        <div class="avatar avatar-bot">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <span>SkillPath AI</span>
-                    </div>
-                    <div class="message-content">
-                        <div class="loading-dots">
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                        </div>
-                        <p>Generating your personalized roadmap...</p>
-                    </div>
-                `;
-                chatArea.appendChild(loadingEl);
-                scrollToBottom();
-            }
-            
-            // Remove loading indicator
-            function removeLoading() {
-                const loadingMessage = document.querySelector('.loading-message');
-                if (loadingMessage) {
-                    chatArea.removeChild(loadingMessage);
-                }
-            }
-            
-            // Generate deep learning response
-            function generateDeepLearningResponse() {
-                return `
-                    <p>Here is the information on learning Deep Learning for Masked Face Recognition:</p>
-                    
-                    <div class="roadmap-section">
-                        <div class="roadmap-title">Skill: Deep Learning for Masked Face Recognition</div>
-                        
-                        <div class="roadmap-subtitle">1) Steps to Learn:</div>
-                        
-                        <div class="step">
-                            <div class="step-title"><strong>Step 1: Fundamentals of Deep Learning (1-2 months)</strong></div>
-                            <ul>
-                                <li>Learn the basics of deep learning, including:
-                                    <ul>
-                                        <li>Neural networks</li>
-                                        <li>Convolutional Neural Networks (CNNs)</li>
-                                        <li>Recurrent Neural Networks (RNNs)</li>
-                                        <li>Long Short-Term Memory (LSTM) networks</li>
-                                        <li>Autoencoders</li>
-                                    </ul>
-                                </li>
-                                <li>Study popular deep learning frameworks such as TensorFlow, PyTorch, or Keras</li>
-                                <li>Complete online courses or tutorials, such as Andrew Ng's Deep Learning course on Coursera or Deep Learning Specialization on edX</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-title"><strong>Step 2: Face Recognition Fundamentals (1-2 months)</strong></div>
-                            <ul>
-                                <li>Learn the basics of face recognition, including:
-                                    <ul>
-                                        <li>Face detection</li>
-                                        <li>Face alignment</li>
-                                        <li>Face verification</li>
-                                        <li>Face identification</li>
-                                    </ul>
-                                </li>
-                                <li>Study popular face recognition algorithms, such as Eigenfaces, Fisherfaces, and Local Binary Patterns (LBP)</li>
-                                <li>Complete online courses or tutorials, such as Face Recognition course on Coursera or Face Recognition using Deep Learning on edX</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-title"><strong>Step 3: Masked Face Recognition (2-3 months)</strong></div>
-                            <ul>
-                                <li>Learn about the challenges of masked face recognition, including:
-                                    <ul>
-                                        <li>Occlusion handling</li>
-                                        <li>Variability in mask types and positions</li>
-                                        <li>Limited training data</li>
-                                    </ul>
-                                </li>
-                                <li>Study state-of-the-art masked face recognition algorithms, such as:
-                                    <ul>
-                                        <li>Masked FaceNet</li>
-                                        <li>Mask-Invariant Face Recognition</li>
-                                        <li>Adversarial Masked Face Recognition</li>
-                                    </ul>
-                                </li>
-                                <li>Implement and experiment with masked face recognition models using popular deep learning frameworks</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-title"><strong>Step 4: Advanced Topics and Project Development (2-3 months)</strong></div>
-                            <ul>
-                                <li>Learn about advanced topics in masked face recognition, including:
-                                    <ul>
-                                        <li>Transfer learning and domain adaptation</li>
-                                        <li>Multimodal fusion (e.g., combining face and fingerprint recognition)</li>
-                                        <li>Explainability and interpretability of masked face recognition models</li>
-                                    </ul>
-                                </li>
-                                <li>Develop a project that applies masked face recognition to a real-world problem, such as:
-                                    <ul>
-                                        <li>Building a masked face recognition system for surveillance applications</li>
-                                        <li>Developing a mobile app for masked face recognition-based authentication</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="roadmap-subtitle">2) Key Prerequisites:</div>
-                        <ul>
-                            <li>Basic programming skills in Python or a similar language</li>
-                            <li>Familiarity with machine learning and computer vision concepts</li>
-                            <li>Experience with deep learning frameworks, such as TensorFlow or PyTorch</li>
-                            <li>Access to a GPU-enabled machine or a cloud computing platform</li>
-                        </ul>
-                        
-                        <div class="roadmap-subtitle">3) Future Guidance:</div>
-                        <ul>
-                            <li>Stay updated with the latest research and developments in masked face recognition by following top conferences, such as CVPR, ICCV, and ECCV</li>
-                            <li>Participate in online communities, such as Kaggle, Reddit (r/MachineLearning and r/ComputerVision), and GitHub, to learn from others and get feedback on your projects</li>
-                            <li>Consider pursuing a graduate degree or certification in deep learning or computer vision to further specialize in masked face recognition</li>
-                            <li>Network with professionals in the field and attend industry events to learn about real-world applications and challenges in masked face recognition</li>
-                        </ul>
-                    </div>
+            button.disabled = true;
+            button.innerHTML = `
+                <div class="spinner"></div>
+                Generating...
+            `;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Server error');
+                window.location.reload();
+            } catch (err) {
+                console.error(err);
+                button.disabled = false;
+                button.innerHTML = `
+                    <svg ...></svg>
+                    Generate Roadmap
                 `;
             }
-            
-            // Generate generic response based on user input
-            function generateGenericResponse(skill) {
-                return `
-                    <p>Here is your personalized roadmap for learning ${skill}:</p>
-                    
-                    <div class="roadmap-section">
-                        <div class="roadmap-title">Skill: ${skill}</div>
-                        
-                        <div class="roadmap-subtitle">1) Steps to Learn:</div>
-                        
-                        <div class="step">
-                            <div class="step-title"><strong>Step 1: Master the Fundamentals (1-2 months)</strong></div>
-                            <ul>
-                                <li>Learn the core principles and concepts</li>
-                                <li>Understand key terminology and frameworks</li>
-                                <li>Complete introductory courses or read foundational books</li>
-                                <li>Practice with simple exercises and projects</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-title"><strong>Step 2: Build Intermediate Knowledge (2-3 months)</strong></div>
-                            <ul>
-                                <li>Dive deeper into specialized areas</li>
-                                <li>Study best practices and common patterns</li>
-                                <li>Work on more complex projects</li>
-                                <li>Join communities and forums related to ${skill}</li>
+        });
+    </script>
+</body>
+</html>
