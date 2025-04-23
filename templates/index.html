@@ -1,278 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skill Roadmap Assistant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --background: #f8fafc;
-            --surface: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skill Roadmap Assistant</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    /* Reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--background) 0%, #f1f5f9 100%);
-            min-height: 100vh;
-            padding: 2rem;
-            color: var(--text-primary);
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--background) 0%, #f1f5f9 100%);
+      min-height: 100vh;
+      padding: 2rem;
+      color: var(--text-primary);
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            animation: fadeIn 0.5s ease-out;
-        }
+    /* Utility color class */
+    .text-secondary {
+      color: var(--text-secondary);
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      animation: fadeIn 0.5s ease-out;
+    }
 
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary), #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
 
-        .chat-container {
-            background: var(--surface);
-            border-radius: 1.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            padding: 2rem;
-        }
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--primary), #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
+    .chat-container {
+      background: var(--surface);
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 2rem;
+    }
 
-        .input-label {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            color: var(--text-secondary);
-            pointer-events: none;
-            transition: all 0.2s ease;
-        }
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
 
-        textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 1.5rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            resize: none;
-        }
+    .input-label {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      color: var(--text-secondary);
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
 
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 1.5rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      resize: none;
+      background: transparent;
+    }
 
-        textarea:focus + .input-label,
-        textarea:not(:placeholder-shown) + .input-label {
-            transform: translateY(-1.5rem) scale(0.85);
-            color: var(--primary);
-        }
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
 
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    textarea:focus + .input-label,
+    textarea:not(:placeholder-shown) + .input-label {
+      transform: translateY(-1.5rem) scale(0.85);
+      color: var(--primary);
+    }
 
-        button:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-        }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        button:active {
-            transform: translateY(0);
-        }
+    button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
 
-        .response-container {
-            margin-top: 2rem;
-            background: var(--surface);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            position: relative;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.4s ease-out forwards;
-        }
+    button:active {
+      transform: translateY(0);
+    }
 
-        .bot-message {
-            line-height: 1.6;
-            color: var(--text-primary);
-        }
+    .response-container {
+      margin-top: 2rem;
+      background: var(--surface);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 0.4s ease-out forwards;
+    }
 
-        .bot-message strong {
-            color: var(--primary);
-            font-weight: 600;
-        }
+    .bot-message {
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
 
-        .roadmap-section {
-            margin: 1.5rem 0;
-            padding-left: 1rem;
-            border-left: 3px solid var(--primary);
-        }
+    .bot-message strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
 
-        .step-badge {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin: 1rem 0;
-            display: inline-block;
-        }
+    .roadmap-section {
+      margin: 1.5rem 0;
+      padding-left: 1rem;
+      border-left: 3px solid var(--primary);
+    }
 
-        .error-message {
-            background: #fee2e2;
-            color: #dc2626;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .step-badge {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin: 1rem 0;
+      display: inline-block;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+    .error-message {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    /* Spinner */
+    .spinner {
+      border: 3px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      width: 1em;
+      height: 1em;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
 
-        @media (max-width: 640px) {
-            body {
-                padding: 1rem;
-            }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
-            .header h1 {
-                font-size: 2rem;
-            }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-            textarea {
-                min-height: 100px;
-            }
-        }
-    </style>
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+      .header h1 {
+        font-size: 2rem;
+      }
+      textarea {
+        min-height: 100px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Skill Roadmap Assistant</h1>
-            <p class="text-secondary">Enter any skill to generate your personalized learning roadmap</p>
-        </div>
-
-        <div class="chat-container">
-            <form action="/chat" method="post" id="chatForm">
-                <div class="input-group">
-                    <textarea 
-                        id="message" 
-                        name="message" 
-                        required
-                        placeholder=" "
-                        autocomplete="off"
-                    >{{ user_message or '' }}</textarea>
-                    <label class="input-label" for="message">Enter your skill (e.g., 'Deep learning for Masked Face Recognition')</label>
-                </div>
-                <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-                    </svg>
-                    Generate Roadmap
-                </button>
-            </form>
-
-            {% if response %}
-                <div class="response-container">
-                    <div class="bot-message">
-                        <strong>📚 Learning Roadmap:</strong>
-                        <div class="roadmap-section">
-                            {{ response | safe }}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if error %}
-                <div class="error-message">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6m0-6l6 6"/>
-                    </svg>
-                    {{ error }}
-                </div>
-            {% endif %}
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>Skill Roadmap Assistant</h1>
+      <p class="text-secondary">
+        Enter any skill to generate your personalized learning roadmap
+      </p>
     </div>
 
-    <script>
-        document.getElementById('chatForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const form = e.target;
-            const formData = new FormData(form);
-            const button = form.querySelector('button');
-            
-            button.disabled = true;
-            button.innerHTML = `
-                <div class="spinner"></div>
-                Generating...
-            `;
+    <div class="chat-container">
+      <form action="/chat" method="post" id="chatForm" novalidate>
+        <div class="input-group">
+          <textarea
+            id="message"
+            name="message"
+            required
+            placeholder=" "
+            autocomplete="off"
+          >{{ user_message or '' }}</textarea>
+          <label class="input-label" for="message">
+            Enter your skill (e.g., 'Deep learning for Masked Face Recognition')
+          </label>
+        </div>
+        <button type="submit">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            viewBox="0 0 24 24"
+          >
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+          Generate Roadmap
+        </button>
+      </form>
 
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData
-                });
+      {% if response %}
+        <div class="response-container">
+          <div class="bot-message">
+            <strong>📚 Learning Roadmap:</strong>
+            <div class="roadmap-section">
+              {{ response | safe }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
 
-                if (!response.ok) throw new Error('Server error');
-                window.location.reload();
-            } catch (err) {
-                console.error(err);
-                button.disabled = false;
-                button.innerHTML = `
-                    <svg ...></svg>
-                    Generate Roadmap
-                `;
-            }
+      {% if error %}
+        <div class="error-message">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M15 9l-6 6m0-6l6 6"/>
+          </svg>
+          {{ error }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('chatForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div>Generating...';
+
+      try {
+        const res = await fetch(e.target.action, {
+          method: 'POST',
+          body: new FormData(e.target),
         });
-    </script>
+        if (!res.ok) throw new Error('Server error');
+        window.location.reload();
+      } catch (err) {
+        console.error(err);
+        btn.disabled = false;
+        btn.innerHTML = `
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            viewBox="0 0 24 24"
+          >
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+          Generate Roadmap
+        `;
+      }
+    });
+  </script>
 </body>
 </html>
